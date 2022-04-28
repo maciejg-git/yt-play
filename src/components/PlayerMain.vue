@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, nextTick } from "vue";
 import PlayerVolume from "./PlayerVolume.vue";
 import PlayerTimer from "./PlayerTimer.vue";
 import PlayerTitle from "./PlayerTitle.vue";
@@ -120,7 +120,9 @@ export default {
     // METHODS
 
     onMounted(() => {
-      setPlayerHeight(playerRef.value);
+      nextTick(() => {
+        setPlayerHeight(playerRef.value);
+      })
     });
 
     function handleClickPlay() {

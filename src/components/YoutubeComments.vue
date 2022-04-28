@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watchEffect, watch } from "vue";
+import { ref, computed, watch } from "vue";
 import useYoutube from "../use-youtube";
 import useYoutubePlayer, { playerStates } from "../use-youtube-player";
 import useUI from "../use-UI";

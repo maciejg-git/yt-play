@@ -151,7 +151,7 @@ function setTheme(theme) {
 }
 
 function toggleSidePanel() {
-  isSidePanelShow.value = isSidePanelShow.value ? false : true;
+  isSidePanelShow.value = !isSidePanelShow.value;
 }
 
 function setCompact(value) {
