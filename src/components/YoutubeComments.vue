@@ -3,7 +3,7 @@
     @mouseenter="pauseComments"
     @mouseleave="playComments"
     @wheel.prevent="handleWheel"
-    :style="{ bottom: playerHeight + marginUI + 'px' }"
+    :style="{ bottom: getPlayerHeight() + marginUI + 'px' }"
     class="comments-container shadow rounded p-1 pr-1 pt-2"
   >
     <div class="comments">
@@ -44,7 +44,7 @@ export default {
 
     let { currentVideo, playerState } = useYoutubePlayer();
 
-    let { marginUI, commentsDuration, playerHeight } = useUI();
+    let { marginUI, commentsDuration, getPlayerHeight } = useUI();
 
     // COMPUTED
 
@@ -113,7 +113,7 @@ export default {
       commentIndex,
       pauseComments,
       playComments,
-      playerHeight,
+      getPlayerHeight,
       marginUI,
       textComment,
       authorComment,

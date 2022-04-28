@@ -85,7 +85,7 @@ export default {
     let {
       showComments,
       showCommentsPause,
-      playerHeight,
+      getPlayerHeight,
       overlayOpacity,
       marginUI,
       columns,
@@ -103,7 +103,7 @@ export default {
 
     let styleBottomMargin = computed(() => {
       return {
-        "min-height": playerHeight.value + 120 + 2 * marginUI + "px",
+        "min-height": getPlayerHeight() + 120 + 2 * marginUI + "px",
       };
     });
 
@@ -115,7 +115,7 @@ export default {
       comments,
       showComments,
       showCommentsPause,
-      playerHeight,
+      getPlayerHeight,
       overlayOpacity,
       styleBottomMargin,
       isAboutVisible,

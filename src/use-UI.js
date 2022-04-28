@@ -6,7 +6,7 @@ let _compactThumbnailHeight = 30;
 let _normalThumbnailWidth = 80;
 let _normalThumbnailHeight = 50;
 let marginUI = 24;
-let playerHeight = ref(0);
+let playerRef = ref(null);
 let compactMode = ref(true);
 let showComments = ref(true);
 let showCommentsPause = ref(false);
@@ -165,7 +165,11 @@ function setCompact(value) {
 }
 
 function setPlayerHeight(el) {
-  playerHeight.value = el.clientHeight;
+  playerRef.value = el;
+}
+
+function getPlayerHeight() {
+  return playerRef.value.clientHeight;
 }
 
 function setComments() {
@@ -174,8 +178,8 @@ function setComments() {
 
 export default function useUI() {
   return {
-    playerHeight,
     setPlayerHeight,
+    getPlayerHeight,
     setCompact,
     thumbnailWidth,
     thumbnailHeight,
