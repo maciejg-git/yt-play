@@ -48,7 +48,7 @@ let { restoreSettings } = useStoreSettings("Player", { playMode });
 
 let { getCommentsRemote, comments, findVideoIndex } = useYoutube();
 
-let { showCommentsPause, playerHeight, marginUI } = useUI();
+let { showCommentsPause, getPlayerHeight, marginUI } = useUI();
 
 restoreSettings();
 initPlayer();
@@ -194,7 +194,7 @@ function setYoutubeWindow(state) {
     let h = window.innerHeight / 1.8;
     let l = (document.body.clientWidth - w) / 2;
     let b = (window.innerHeight - h) / 2;
-    let h2 = playerHeight.value + 120 + 2 * marginUI;
+    let h2 = getPlayerHeight() + 120 + 2 * marginUI;
     b = b < h2 ? h2 : b;
     _player.getIframe().then((el) => {
       el.style.transition = "right 0.3s,bottom 0.3s";
