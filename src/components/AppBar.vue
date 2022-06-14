@@ -22,8 +22,7 @@
       >
     </div>
     <div class="col-auto">
-      <!-- <button @click="handleSearch" class="btn btn&#45;primary btn&#45;sm"> -->
-      <button @click="" class="btn btn-primary btn-sm">
+      <button @click="" class="btn btn-primary btn-sm" disabled>
         Search
       </button>
     </div>

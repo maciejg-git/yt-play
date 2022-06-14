@@ -61,6 +61,10 @@ export default {
       }
     });
 
+    watch(commentsDuration, () => {
+      playComments()
+    })
+
     let textComment = computed(() => {
       return comments.value[commentIndex.value].snippet.topLevelComment.snippet
         .textOriginal;

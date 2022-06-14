@@ -14,13 +14,13 @@
   <i 
     v-if="playerWindowState == 1" 
     @click="handleYoutubeWindowClick" 
-    v-tippy="'Fullscreen'" 
+    v-tippy="'Center player'" 
     class="mdi mdi-square-rounded-outline mdi-player-icon"
   ></i>
   <i 
     v-else 
     @click="handleYoutubeWindowClick" 
-    v-tippy="'Fullscreen'" 
+    v-tippy="'Minimize player'" 
     class="mdi mdi-arrow-top-left-thick mdi-player-icon"
   ></i>
 </template>

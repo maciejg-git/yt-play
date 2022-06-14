@@ -1,59 +1,29 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark py-0">
+  <nav class="navbar navbar-expand-lg navbar-dark py-0 d-flex align-items-center">
     <div class="container-fluid align-items-stretch">
       <a class="navbar-brand fw-bold py-2" href="#">YTPlay</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
+      <button class="btn btn-link d-flex align-items-center" @click="handleThemeClick">
+        <icon :name="darkTheme ? BSun : BMoon" class="icon"></icon>
       </button>
-      <!-- <ul class="navbar-nav ms-auto ms-2 py-0 my-0"> -->
-      <!--   <li -->
-      <!--     class="nav-item d-flex align-items-center" -->
-      <!--     :class="{ 'nav-item-active': !isAboutVisible }" -->
-      <!--   > -->
-      <!--     <a -->
-      <!--       @click.prevent="handleClickPlaylists" -->
-      <!--       class="nav-link py-0 px-3 my-0" -->
-      <!--       aria-current="page" -->
-      <!--       href="#" -->
-      <!--     > -->
-      <!--       Playlists -->
-      <!--     </a> -->
-      <!--   </li> -->
-      <!--   <li -->
-      <!--     class="nav-item d-flex align-items-center" -->
-      <!--     :class="{ 'nav-item-active': isAboutVisible }" -->
-      <!--   > -->
-      <!--     <a -->
-      <!--       @click.prevent="handleClickAbout" -->
-      <!--       class="nav-link py-0 px-3 my-0" -->
-      <!--       aria-current="page" -->
-      <!--       href="#" -->
-      <!--     > -->
-      <!--       About -->
-      <!--     </a> -->
-      <!--   </li> -->
-      <!-- </ul> -->
     </div>
   </nav>
 </template>
 
 <script>
 import useUI from "../use-UI";
+import BSun from "../icons/sun"
+import BMoon from "../icons/moon"
 
 export default {
   setup() {
-    let { isAboutVisible } = useUI();
+    let { isAboutVisible, darkTheme } = useUI();
 
     function handleClickAbout() {
       isAboutVisible.value = !isAboutVisible.value;
+    }
+
+    function handleThemeClick() {
+      darkTheme.value = !darkTheme.value
     }
 
     function handleClickPlaylists() {
@@ -62,8 +32,12 @@ export default {
 
     return {
       handleClickAbout,
+      handleThemeClick,
       handleClickPlaylists,
       isAboutVisible,
+      BMoon,
+      BSun,
+      darkTheme,
     };
   },
 };
@@ -90,5 +64,15 @@ export default {
 .nav-item-active {
   margin-top: 2px;
   border-bottom: solid #0d6efd 2px;
+}
+
+.icon {
+  width: 1.5em;
+  height: 1.5em;
+  color: #eeeeee;
+}
+
+.btn:focus {
+  box-shadow: none;
 }
 </style>

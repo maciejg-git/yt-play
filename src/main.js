@@ -6,6 +6,7 @@ import { Dropdown } from 'bootstrap'
 import tippy, {followCursor} from 'tippy.js';
 import 'tippy.js/dist/tippy.css';
 import maxSize from 'popper-max-size-modifier'
+import Icon from "./components/Icon.vue"
 
 const applyMaxSize = {
   name: 'applyMaxSize',
@@ -82,6 +83,8 @@ app.directive('scroll', {
     el.addEventListener('scroll', f)
   }
 })
+
+app.component("Icon", Icon)
 
 app.use(router).mount('#app');
 

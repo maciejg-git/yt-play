@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import useYoutube from '../use-youtube'
 import useUI from '../use-UI.js'
 
