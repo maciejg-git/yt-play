@@ -1,5 +1,4 @@
 import { ref, onMounted, watch, reactive, computed } from "vue";
-import axios from "axios";
 import { createUrl } from "./tools.js";
 import useStore from "./use-store.js";
 
@@ -36,9 +35,10 @@ async function getPlaylistRemote(playlist, nextPage) {
   playlist.isLoading = true;
 
   try {
-    let res = await axios.get(queryUrl);
+    let res = await fetch(queryUrl);
+    let data = await res.json()
 
-    res.data.items.map((item) => {
+    data.items.map((item) => {
       item.snippet.el = ref(null);
       item.snippet.description = item.snippet.description.replace(
         regexpTime,
@@ -50,12 +50,13 @@ async function getPlaylistRemote(playlist, nextPage) {
     });
 
     playlist.items = playlist.items.concat(
-      res.data.items.filter(
+      data.items.filter(
         (item) =>
           item.snippet.title != "Private video" &&
           item.snippet.title != "Deleted video"
       )
     );
+
     playlist.filteredItems = computed(() => {
       let regexp = new RegExp(
         state.filter.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&"),
@@ -65,9 +66,10 @@ async function getPlaylistRemote(playlist, nextPage) {
         (item) => item.snippet.title.search(regexp) >= 0
       );
     });
-    playlist.results = res.data.pageInfo.totalResults;
 
-    playlist.nextPageToken = res.data.nextPageToken;
+    playlist.results = data.pageInfo.totalResults;
+
+    playlist.nextPageToken = data.nextPageToken;
   } catch (err) {
     if (err.response.status == 404) {
       playlist.error = `Playlist ${playlist.id} not found.`;
@@ -84,8 +86,9 @@ async function _getPlaylistPropertiesRemote(playlist) {
   let queryUrl = createUrl(googleApiRemote + "playlists?", query);
 
   try {
-    let res = await axios.get(queryUrl);
-    playlist.title = res.data.items[0].snippet.title;
+    let res = await fetch(queryUrl);
+    let data = await res.json()
+    playlist.title = data.items[0].snippet.title;
   } catch (err) {}
 }
 
@@ -98,9 +101,10 @@ async function getChannelPlaylists(id) {
   };
   let queryUrl = createUrl(googleApiPlaylists, query);
 
-  let res = await axios.get(queryUrl);
+  let res = await fetch(queryUrl);
+  let data = await res.json()
 
-  channelPlaylists = res.data.items;
+  channelPlaylists = data.items;
 
   for (let i of channelPlaylists) {
     addPlaylist(i.id, i.snippet.title);
@@ -119,11 +123,12 @@ async function getCommentsRemote(videoId, nextPage) {
   }
   let queryUrl = createUrl(googleApiRemote + "comments?", query);
   try {
-    let res = await axios.get(queryUrl);
+    let res = await fetch(queryUrl);
+    let data = await res.json()
 
-    comments.value = comments.value.concat(res.data.items);
+    comments.value = comments.value.concat(data.items);
 
-    _commentsNextPageToken = res.data.nextPageToken;
+    _commentsNextPageToken = data.nextPageToken;
   } catch (err) {
     comments.value = [];
   }
@@ -139,10 +144,11 @@ async function searchRemote(value, nextPage) {
   }
   let queryUrl = createUrl(googleApiRemote + "search?", query);
 
-  let res = await axios.get(queryUrl);
+  let res = await fetch(queryUrl);
+  let data = await res.json()
 
   searchRes.value = searchRes.value.concat(
-    res.data.items.filter((item) => item.id.kind == "youtube#video")
+    data.items.filter((item) => item.id.kind == "youtube#video")
   );
   searchRes.value.map((item) => (item.snippet.resourceId = item.id));
 
