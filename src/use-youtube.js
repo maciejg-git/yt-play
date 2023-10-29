@@ -1,4 +1,4 @@
-import { ref, onMounted, watch, reactive, computed } from "vue";
+import { ref, reactive, computed } from "vue";
 import { createUrl } from "./tools.js";
 import useStore from "./use-store.js";
 
@@ -16,6 +16,14 @@ let comments = ref([]);
 let regexpTime = /[0-9]?[0-9]?:?[0-9]?[0-9]:[0-9][0-9]/gi;
 
 let state = useStore();
+
+function findPlaylistIndex(playlist) {
+  return playlists.value.findIndex((item) => item == playlist);
+}
+
+function findVideoIndex(playlist, video) {
+  return playlist.items.findIndex((item) => item.snippet == video);
+}
 
 // YOUTUBE API
 
@@ -184,8 +192,8 @@ async function addPlaylistToPlaylists(id, local) {
 }
 
 function addSavedPlaylists() {
-  let pl = loadPlaylists();
-  for (let p of pl) {
+  let savedPlaylists = loadPlaylists();
+  for (let p of savedPlaylists) {
     if (playlistLoaded(p.id)) continue;
     let playlist = addPlaylist(p.id, true);
     playlists.value.push(playlist);
@@ -239,14 +247,6 @@ function playlistLoaded(id) {
       return true;
     }
   }
-}
-
-function findPlaylistIndex(playlist) {
-  return playlists.value.findIndex((item) => item == playlist);
-}
-
-function findVideoIndex(playlist, video) {
-  return playlist.items.findIndex((item) => item.snippet == video);
 }
 
 // LOCAL STORAGE
