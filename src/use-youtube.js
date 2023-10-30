@@ -1,5 +1,4 @@
 import { ref, reactive, computed } from "vue";
-import { createUrl } from "./tools.js";
 import useStore from "./use-store.js";
 
 // let googleApiRemote = "https://youtube-vue-server.herokuapp.com/youtubevue/";
@@ -30,20 +29,19 @@ function findVideoIndex(playlist, video) {
 async function getPlaylistRemote(playlist, nextPage) {
   if (nextPage && !playlist.nextPageToken) return;
 
-  let query = {
-    id: playlist.id,
-  };
   if (nextPage && playlist.nextPageToken) {
     query.nextPageToken = playlist.nextPageToken;
   }
-  let queryUrl = createUrl(googleApiRemote + "playlist?", query);
+
+  let url = new URL("playlist", googleApiRemote)
+  url.searchParams.append("id", playlist.id)
 
   playlist.nextPageToken = null;
 
   playlist.isLoading = true;
 
   try {
-    let res = await fetch(queryUrl);
+    let res = await fetch(url);
     let data = await res.json()
 
     data.items.map((item) => {
@@ -88,28 +86,24 @@ async function getPlaylistRemote(playlist, nextPage) {
 }
 
 async function _getPlaylistPropertiesRemote(playlist) {
-  let query = {
-    id: playlist.id,
-  };
-  let queryUrl = createUrl(googleApiRemote + "playlists?", query);
+  let url = new URL("playlists", googleApiRemote)
+  url.searchParams.append("id", playlist.id)
 
   try {
-    let res = await fetch(queryUrl);
+    let res = await fetch(url);
     let data = await res.json()
     playlist.title = data.items[0].snippet.title;
   } catch (err) {}
 }
 
 async function getChannelPlaylists(id) {
-  let query = {
-    part: "snippet",
-    channelId: id,
-    key: apiKey,
-    maxResults: 50,
-  };
-  let queryUrl = createUrl(googleApiPlaylists, query);
+  let url = new URL("playlist", googleApiRemote)
+  url.searchParams.append("part", "snippet")
+  url.searchParams.append("channelId", id)
+  url.searchParams.append("key", apiKey)
+  url.searchParams.append("maxResults", 50)
 
-  let res = await fetch(queryUrl);
+  let res = await fetch(url);
   let data = await res.json()
 
   channelPlaylists = data.items;
@@ -123,15 +117,15 @@ async function getCommentsRemote(videoId, nextPage) {
   if (nextPage && !_commentsNextPageToken) return;
   if (!nextPage) comments.value = [];
 
-  let query = {
-    id: videoId,
-  };
   if (nextPage && _commentsNextPageToken) {
     query.nextPageToken = _commentsNextPageToken;
   }
-  let queryUrl = createUrl(googleApiRemote + "comments?", query);
+
+  let url = new URL("comments", googleApiRemote)
+  url.searchParams.append("id", videoId)
+
   try {
-    let res = await fetch(queryUrl);
+    let res = await fetch(url);
     let data = await res.json()
 
     comments.value = comments.value.concat(data.items);
@@ -144,15 +138,15 @@ async function getCommentsRemote(videoId, nextPage) {
 
 async function searchRemote(value, nextPage) {
   _searchLast = nextPage ? _searchLast : value;
-  let query = {
-    q: _searchLast,
-  };
+
   if (nextPage && _searchNextPageToken) {
     query.nextPageToken = _searchNextPageToken;
   }
-  let queryUrl = createUrl(googleApiRemote + "search?", query);
 
-  let res = await fetch(queryUrl);
+  let url = new URL("search", googleApiRemote)
+  url.searchParams.append("q", _searchLast)
+
+  let res = await fetch(url);
   let data = await res.json()
 
   searchRes.value = searchRes.value.concat(
