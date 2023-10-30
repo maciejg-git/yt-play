@@ -29,12 +29,11 @@ function findVideoIndex(playlist, video) {
 async function getPlaylistRemote(playlist, nextPage) {
   if (nextPage && !playlist.nextPageToken) return;
 
-  if (nextPage && playlist.nextPageToken) {
-    query.nextPageToken = playlist.nextPageToken;
-  }
-
   let url = new URL("playlist", googleApiRemote)
   url.searchParams.append("id", playlist.id)
+  if (nextPage && playlist.nextPageToken) {
+    url.searchParams.append("nextPageToken", playlist.nextPageToken)
+  }
 
   playlist.nextPageToken = null;
 
@@ -117,12 +116,11 @@ async function getCommentsRemote(videoId, nextPage) {
   if (nextPage && !_commentsNextPageToken) return;
   if (!nextPage) comments.value = [];
 
-  if (nextPage && _commentsNextPageToken) {
-    query.nextPageToken = _commentsNextPageToken;
-  }
-
   let url = new URL("comments", googleApiRemote)
   url.searchParams.append("id", videoId)
+  if (nextPage && _commentsNextPageToken) {
+    url.searchParams.append("nextPageToken", _commentsNextPageToken)
+  }
 
   try {
     let res = await fetch(url);
@@ -139,12 +137,11 @@ async function getCommentsRemote(videoId, nextPage) {
 async function searchRemote(value, nextPage) {
   _searchLast = nextPage ? _searchLast : value;
 
-  if (nextPage && _searchNextPageToken) {
-    query.nextPageToken = _searchNextPageToken;
-  }
-
   let url = new URL("search", googleApiRemote)
   url.searchParams.append("q", _searchLast)
+  if (nextPage && _searchNextPageToken) {
+    url.searchParams.append("nextPageToken", _searchNextPageToken)
+  }
 
   let res = await fetch(url);
   let data = await res.json()
