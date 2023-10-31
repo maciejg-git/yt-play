@@ -41,6 +41,11 @@ async function getPlaylistRemote(playlist, nextPage) {
 
   try {
     let res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+
     let data = await res.json()
 
     data.items.map((item) => {
@@ -90,6 +95,11 @@ async function _getPlaylistPropertiesRemote(playlist) {
 
   try {
     let res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+
     let data = await res.json()
     playlist.title = data.items[0].snippet.title;
   } catch (err) {}
@@ -103,6 +113,11 @@ async function getChannelPlaylists(id) {
   url.searchParams.append("maxResults", 50)
 
   let res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`${res.status} ${res.statusText}`);
+  }
+
   let data = await res.json()
 
   channelPlaylists = data.items;
@@ -124,6 +139,11 @@ async function getCommentsRemote(videoId, nextPage) {
 
   try {
     let res = await fetch(url);
+
+    if (!res.ok) {
+      throw new Error(`${res.status} ${res.statusText}`);
+    }
+
     let data = await res.json()
 
     comments.value = comments.value.concat(data.items);
@@ -144,6 +164,11 @@ async function searchRemote(value, nextPage) {
   }
 
   let res = await fetch(url);
+
+  if (!res.ok) {
+    throw new Error(`${res.status} ${res.statusText}`);
+  }
+
   let data = await res.json()
 
   searchRes.value = searchRes.value.concat(
