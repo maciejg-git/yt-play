@@ -138,7 +138,7 @@ export default {
 
     function handleScroll(ev) {
       if (
-        ev.target.scrollTop >=
+        Math.ceil(ev.target.scrollTop) >=
         ev.target.scrollHeight - ev.target.offsetHeight
       ) {
         getPlaylistRemote(props.playlist, true);
