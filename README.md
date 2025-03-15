@@ -6,7 +6,8 @@ YTPlay is an application for playing, searching and displaying multiple Youtube 
 
 Build with: Vue 3, Bootstrap, Tippy.js and Express.
 
-Features: 
+### Features: 
+
 - filtering playlists, 
 - different playmodes,
 - playing video comments in the background,
