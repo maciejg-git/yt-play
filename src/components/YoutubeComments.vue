@@ -83,7 +83,7 @@ export default {
     // METHODS
 
     function handleWheel(ev) {
-      let index = ev.deltaY / 200;
+      let index = ev.deltaY / 100;
       commentIndex.value += index;
       if (commentIndex.value > comments.value.length - 5) {
         getCommentsRemote(currentVideo.value.resourceId.videoId, true);
